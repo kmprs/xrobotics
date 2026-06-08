@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Root element -->
+    <xs:element name="BehaviorTree" type="BehaviorTreeType"/>
+
+    <!-- BehaviorTree -->
+    <xs:complexType name="BehaviorTreeType">
+        <xs:sequence>
+            <xs:element name="Goal" type="GoalType"/>
+        </xs:sequence>
+        <xs:attribute name="bt_type" type="BTTypeEnum" use="required"/>
+    </xs:complexType>
+
+    <!-- BTType enum -->
+    <xs:simpleType name="BTTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ROBOT"/>
+            <xs:enumeration value="HUMAN"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Goal -->
+    <xs:complexType name="GoalType">
+        <xs:sequence>
+            <xs:element name="Subgoal" type="SubgoalType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Subgoal -->
+    <xs:complexType name="SubgoalType">
+        <xs:sequence>
+            <xs:element name="Step" type="StepType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Step -->
+    <xs:complexType name="StepType">
+        <xs:sequence>
+            <xs:element name="Action" type="ActionType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <!-- Action -->
+    <xs:complexType name="ActionType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+
+</xs:schema>

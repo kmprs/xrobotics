@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BehaviorTree bt_type="ROBOT">
+    <Goal name="Deliver package">
+        <Subgoal name="Navigate to target">
+            <Step name="Leave base">
+                <Action name="unlock_wheels"/>
+                <Action name="activate_motors"/>
+            </Step>
+            <Step name="Move to waypoint">
+                <Action name="compute_path"/>
+                <Action name="follow_path"/>
+            </Step>
+        </Subgoal>
+        <Subgoal name="Hand off package">
+            <Step name="Approach recipient">
+                <Action name="extend_arm"/>
+                <Action name="open_gripper"/>
+            </Step>
+            <Step name="Release package">
+                <Action name="release_gripper"/>
+                <Action name="retract_arm"/>
+            </Step>
+        </Subgoal>
+    </Goal>
+</BehaviorTree>
