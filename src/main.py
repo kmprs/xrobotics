@@ -4,16 +4,20 @@ from bt_parser import BehaviorTreeXMLParser, BehaviorTreeParseError
 import util
 
 
-TREE_FILE_PATH = Path(__file__).parent  / "../assets/bt/example_tree.xml"
+TREE_ROBOT_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_robot_delivery.xml"
+TREE_HUMAN_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_human_delivery.xml"
 
 
 def main(): 
     parser = BehaviorTreeXMLParser() 
-    parser.validate(TREE_FILE_PATH)
+    parser.validate(TREE_ROBOT_FILE_PATH)
+    parser.validate(TREE_HUMAN_FILE_PATH)
 
     try:
-        tree = parser.parse(TREE_FILE_PATH)
-        util.print_bt(tree)
+        tree_robot = parser.parse(TREE_ROBOT_FILE_PATH)
+        tree_human = parser.parse(TREE_HUMAN_FILE_PATH)
+        util.print_bt(tree_robot)
+        util.print_bt(tree_human)
         
     except etree.DocumentInvalid as e:
         print(f"Schema error: {e}")
