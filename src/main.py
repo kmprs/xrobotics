@@ -1,28 +1,20 @@
 from lxml import etree
 from pathlib import Path
 from bt_parser import BehaviorTreeXMLParser, BehaviorTreeParseError
+from explanation_generator import ExplanationGenerator
 import util
 
 
-TREE_ROBOT_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_robot_delivery.xml"
-TREE_HUMAN_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_human_delivery.xml"
+BT_ROBOT_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_robot_delivery.xml"
+BT_HUMAN_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_human_delivery.xml"
 
 
 def main(): 
-    parser = BehaviorTreeXMLParser() 
-    parser.validate(TREE_ROBOT_FILE_PATH)
-    parser.validate(TREE_HUMAN_FILE_PATH)
-
-    try:
-        tree_robot = parser.parse(TREE_ROBOT_FILE_PATH)
-        tree_human = parser.parse(TREE_HUMAN_FILE_PATH)
-        util.print_bt(tree_robot)
-        util.print_bt(tree_human)
-        
-    except etree.DocumentInvalid as e:
-        print(f"Schema error: {e}")
-    except BehaviorTreeParseError as e:
-        print(f"Semantic error: {e}")
+    explanation_generator = ExplanationGenerator(
+        bt_robot_path=BT_ROBOT_FILE_PATH,
+        bt_human_path=BT_HUMAN_FILE_PATH
+    )
+    _ = explanation_generator
 
 
 if __name__ == "__main__":
