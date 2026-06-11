@@ -1,8 +1,5 @@
-from lxml import etree
 from pathlib import Path
-from bt_parser import BehaviorTreeXMLParser, BehaviorTreeParseError
 from explanation_generator import ExplanationGenerator
-import util
 
 
 BT_ROBOT_FILE_PATH = Path(__file__).parent  / "../assets/bt/bt_robot_delivery.xml"
@@ -14,7 +11,12 @@ def main():
         bt_robot_path=BT_ROBOT_FILE_PATH,
         bt_human_path=BT_HUMAN_FILE_PATH
     )
-    _ = explanation_generator
+    triggers = explanation_generator.detect_triggers()
+    if len(triggers) > 0: 
+        for trigger in triggers: 
+            print(trigger.trigger_type)
+    else: 
+        print("No triggers detected")
 
 
 if __name__ == "__main__":
