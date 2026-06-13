@@ -82,16 +82,21 @@ class ExplanationGenerator:
         match trigger.trigger_type:
             case TriggerType.SUBGOAL_MISMATCH: 
                 return (
-                    "How do you do you plan to " + constants.GOAL_NAME + "?", 
+                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + constants.GOAL_NAME + "?", 
                     trigger.relevant_elements[0][constants.GOAL_NAME]["description"] 
                 )
             case TriggerType.SUBGOAL_MISMATCH_MISSING: 
                 pass
             case TriggerType.SUBGOAL_MISMATCH_EXTRA: 
-                pass
+                subgoal_name = next(iter(trigger.relevant_elements[0].keys()))
+                return (
+                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + subgoal_name + "?",
+                    ("I " + subgoal_name + 
+                         " because " + trigger.relevant_elements[0][subgoal_name]["need"])
+                )
             case TriggerType.STEPS_MISMATCH: 
                 return (
-                    "How do you do you plan to " + constants.GOAL_NAME + "?", 
+                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + constants.GOAL_NAME + "?", 
                     trigger.relevant_elements[0]["description"] 
                 )
             case TriggerType.STEPS_MISMATCH_EXTRA: 
@@ -134,16 +139,15 @@ class ExplanationGenerator:
         
         # SUBGOAL_MISMATCH_EXTRA
         else:
-            # use subgoal description for explaining relevance
-            subgoals = {
-                name: steps
-                for name, steps in self.__bt_robot[constants.GOAL_NAME]["subgoals"].items()
-                if name in extra_subgoals
-            }
-            return [Trigger(
-                trigger_type=TriggerType.SUBGOAL_MISMATCH_EXTRA,
-                relevant_elements=[subgoals]
-            )]
+            # use subgoal need for explaining relevance
+            result: list[Trigger] = []
+            for name, content in self.__bt_robot[constants.GOAL_NAME]["subgoals"].items():
+                if name in extra_subgoals:
+                    result.append(Trigger(
+                        trigger_type=TriggerType.SUBGOAL_MISMATCH_EXTRA,
+                        relevant_elements=[{name: content}]
+                    ))
+            return result
 
     def __detect_step_mismatches(self) -> list[Trigger]:
         """

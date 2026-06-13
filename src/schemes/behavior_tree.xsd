@@ -37,6 +37,7 @@
     <!-- Subgoal -->
     <xs:complexType name="SubgoalType">
         <xs:sequence>
+            <xs:element name="Need" type="DescriptionType"/>
             <xs:element name="Description" type="DescriptionType"/>
             <xs:element name="Step" type="StepType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>

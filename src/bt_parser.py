@@ -83,7 +83,11 @@ class BehaviorTreeXMLParser:
 
     def __parse_subgoal(self, subgoal_elem: etree._Element) -> dict:
         description_elem = subgoal_elem.find("Description")
+        need_elem = subgoal_elem.find("Need")
         return {
+            "need": (need_elem.attrib["value"]
+                    if need_elem is not None
+                    else None),
             "description": (description_elem.attrib["value"]
                             if description_elem is not None
                             else None),
@@ -94,10 +98,10 @@ class BehaviorTreeXMLParser:
         }
  
     @staticmethod
-    def __parse_step(step_elem: etree._Element) -> dict:
+    def __parse_step(step_element: etree._Element) -> dict:
         return {
             "actions": [
-                action_elem.attrib["name"]
-                for action_elem in step_elem.findall("Action")
+                action_element.attrib["name"]
+                for action_element in step_element.findall("Action")
             ]
         }

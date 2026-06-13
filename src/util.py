@@ -1,6 +1,4 @@
 from bt_parser import BTDict
-
-
 def print_bt(bt_dict: BTDict) -> None:
     """
     Example output:
@@ -8,6 +6,7 @@ def print_bt(bt_dict: BTDict) -> None:
     └── Goal: AssemblePart
         │   Description: "I first grasp the object and the place it"
         ├── Subgoal: Grasp
+        │   │   Need: "Pick up the object firmly without dropping it"
         │   │   Description: "Pick up the object firmly"
         │   ├── Step: Approach
         │   │   ├── Action: move_arm
@@ -31,11 +30,12 @@ def print_bt(bt_dict: BTDict) -> None:
             subgoal_prefix = "    └──" if is_last_subgoal else "    ├──"
             subgoal_indent = "        " if is_last_subgoal else "    │   "
             print(f"{subgoal_prefix} Subgoal: {subgoal_name}")
-
+            subgoal_need = subgoal_data.get("need")
+            if subgoal_need is not None:
+                print(f'{subgoal_indent}│   Need: "{subgoal_need}"')
             subgoal_description = subgoal_data.get("description")
             if subgoal_description is not None:
                 print(f'{subgoal_indent}│   Description: "{subgoal_description}"')
-
             steps = subgoal_data["steps"]
             step_items = list(steps.items())
             for j, (step_name, step_data) in enumerate(step_items):

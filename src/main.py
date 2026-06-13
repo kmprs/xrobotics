@@ -15,11 +15,9 @@ def main():
         print("──────────────────────────────────────────────────────────────────────────────")
         for trigger in triggers:
             question, answer = explanation_generator.generate_explanation(trigger)
-            if constants.DEBUG_ENABLED: 
-                print("\n\n")
             print(f"QUESTION: {question}")
             if constants.DEBUG_ENABLED:
-                print(f"∟>TRIGGER: {trigger.trigger_type}")
+                print(f"───>TRIGGER: {trigger.trigger_type}")
             print(f"\nANSWER: {answer}")
             print("──────────────────────────────────────────────────────────────────────────────\n\n")
 

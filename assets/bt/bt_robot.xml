@@ -5,31 +5,34 @@
 
 
         <Subgoal name="navigate to the kitchen counter">
+            <Need value="I need to be able to reach the area that is dirty."/>
             <Description value="I navigate to the kitchen counter so I can reach the area that needs cleaning. I prepare for navigation and then move to the counter."/>
+
             <Step name="prepare_navigation">
                 <Action name="unlock_wheels"/>
                 <Action name="activate_motors"/>
             </Step>
+
             <Step name="move_to_counter">
                 <Action name="compute_path"/>
                 <Action name="follow_path"/>
             </Step>
         </Subgoal>
 
-
+        
         <Subgoal name="wipe the kitchen counter">
+            <Need value="I need to free the counter from dirt and dust."/>
             <Description value="I wipe the kitchen counter to remove dirt and maintain a clean surface. I prepare the cleaning tool, apply cleaner, and wipe the surface."/>
 
             <Step name="prepare_cleaning_tool">
                 <Action name="extend_arm"/>
                 <Action name="grasp_cleaning_cloth"/>
             </Step>
-
+            
             <Step name="apply_cleaner">
                 <Action name="spray_cleaning_solution"/>
                 <Action name="wait_for_solution_to_settle"/>
             </Step>
-
             <Step name="wipe_surface">
                 <Action name="execute_wiping_pattern"/>
                 <Action name="remove_debris"/>
