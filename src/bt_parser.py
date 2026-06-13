@@ -80,11 +80,17 @@ class BehaviorTreeXMLParser:
                 },
             }
         }
- 
+
     def __parse_subgoal(self, subgoal_elem: etree._Element) -> dict:
+        description_elem = subgoal_elem.find("Description")
         return {
-            step_elem.attrib["name"]: self.__parse_step(step_elem)
-            for step_elem in subgoal_elem.findall("Step")
+            "description": (description_elem.attrib["value"]
+                            if description_elem is not None
+                            else None),
+            "steps": {
+                step_elem.attrib["name"]: self.__parse_step(step_elem)
+                for step_elem in subgoal_elem.findall("Step")
+            },
         }
  
     @staticmethod

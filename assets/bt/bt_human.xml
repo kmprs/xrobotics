@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BehaviorTree bt_type="ROBOT">
     <Goal name="clean the kitchen counter">
-        <Description value="I first navigate to the kitchen counter so it can reach the work area. I then prepare the cleaning tool and wipe the surface to remove dirt and leave the counter clean."/>
-        <Subgoal name="Navigate to counter">
+        <Description value=""/>
+
+        
+        <Subgoal name="navigate to the kitchen counter">
+            <Description value=""/>
+            
             <Step name="prepare_navigation">
                 <Action name="unlock_wheels"/>
                 <Action name="activate_motors"/>
             </Step>
+            
             <Step name="move_to_counter">
                 <Action name="compute_path"/>
                 <Action name="follow_path"/>
             </Step>
         </Subgoal>
-        <Subgoal name="Clean counter">
+        
+        
+        <Subgoal name="wipe the kitchen counter1">
+            <Description value=""/>
+            
             <Step name="prepare_cleaning_tool">
                 <Action name="extend_arm"/>
                 <Action name="grasp_cleaning_cloth"/>
             </Step>
+            
             <Step name="apply_cleaner">
                 <Action name="spray_cleaning_solution"/>
                 <Action name="wait_for_solution_to_settle"/>
             </Step>
+            
             <Step name="wipe_surface">
                 <Action name="execute_wiping_pattern"/>
                 <Action name="remove_debris"/>
