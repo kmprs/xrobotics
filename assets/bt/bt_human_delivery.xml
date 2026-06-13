@@ -2,23 +2,23 @@
 <BehaviorTree bt_type="HUMAN">
     <Goal name="Deliver package">
         <Subgoal name="Navigate to target">
-            <Step name="Leave building">
+            <Step name="step1">
                 <Action name="put_on_coat"/>
                 <Action name="pick_up_package"/>
                 <Action name="walk_to_exit"/>
             </Step>
-            <Step name="Travel to destination">
+            <Step name="step2">
                 <Action name="check_address"/>
                 <Action name="take_bus"/>
                 <Action name="walk_to_door"/>
             </Step>
         </Subgoal>
         <Subgoal name="Hand off package">
-            <Step name="Make contact">
+            <Step name="step3">
                 <Action name="ring_doorbell"/>
                 <Action name="greet_recipient"/>
             </Step>
-            <Step name="Complete delivery">
+            <Step name="step4">
                 <Action name="hand_over_package"/>
                 <Action name="ask_for_signature"/>
                 <Action name="say_goodbye"/>

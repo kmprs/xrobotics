@@ -1,17 +1,43 @@
-from bt import BehaviorTree
+from bt_parser import BTDict
 
-def print_bt(bt: BehaviorTree):
-    print(f"[{bt.bt_type.name}] BehaviorTree")
-    print(f"└── Goal: {bt.goal.name}")
-    for i, subgoal in enumerate(bt.goal.subgoals):
-        sg_prefix = "    └──" if i == len(bt.goal.subgoals) - 1 else "    ├──"
-        print(f"{sg_prefix} Subgoal: {subgoal.name}")
-        indent = "        " if i == len(bt.goal.subgoals) - 1 else "    │   "
-        for j, step in enumerate(subgoal.steps):
-            st_prefix = "└──" if j == len(subgoal.steps) - 1 else "├──"
-            print(f"{indent}{st_prefix} Step: {step.name}")
-            act_indent = indent + ("    " if j == len(subgoal.steps) - 1 else "│   ")
-            for k, action in enumerate(step.actions):
-                ac_prefix = "└──" if k == len(step.actions) - 1 else "├──"
-                print(f"{act_indent}{ac_prefix} Action: {action.name}")
 
+def print_bt(bt_dict: BTDict) -> None:
+    """
+    Example output:
+
+    [ROBOT] BehaviorTree
+    └── Goal: AssemblePart
+        ├── Subgoal: Grasp
+        │   ├── Step: Approach
+        │   │   ├── Action: move_arm
+        │   │   └── Action: open_gripper
+        │   └── Step: Close
+        │       └── Action: close_gripper
+        └── Subgoal: Place
+            └── Step: Release
+                └── Action: open_gripper
+    """
+    for goal_name, goal_data in bt_dict.items():
+        bt_type = goal_data.get("bt_type", "UNKNOWN")
+        print(f"[{bt_type}] BehaviorTree")
+        print(f"└── Goal: {goal_name}")
+ 
+        subgoals = goal_data["subgoals"]
+        for i, (subgoal_name, steps) in enumerate(subgoals.items()):
+            is_last_sg = i == len(subgoals) - 1
+            sg_prefix = "    └──" if is_last_sg else "    ├──"
+            sg_indent = "        " if is_last_sg else "    │   "
+ 
+            print(f"{sg_prefix} Subgoal: {subgoal_name}")
+ 
+            step_items = list(steps.items())
+            for j, (step_name, step_data) in enumerate(step_items):
+                is_last_st = j == len(step_items) - 1
+                st_prefix = "└──" if is_last_st else "├──"
+                st_indent = sg_indent + ("    " if is_last_st else "│   ")
+                print(f"{sg_indent}{st_prefix} Step: {step_name}")
+ 
+                actions = step_data["actions"]
+                for k, action_name in enumerate(actions):
+                    ac_prefix = "└──" if k == len(actions) - 1 else "├──"
+                    print(f"{st_indent}{ac_prefix} Action: {action_name}")

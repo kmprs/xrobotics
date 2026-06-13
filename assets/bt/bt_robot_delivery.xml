@@ -2,21 +2,21 @@
 <BehaviorTree bt_type="ROBOT">
     <Goal name="Deliver package">
         <Subgoal name="Navigate to target">
-            <Step name="Leave base">
+            <Step name="step1">
                 <Action name="unlock_wheels"/>
                 <Action name="activate_motors"/>
             </Step>
-            <Step name="Move to waypoint">
+            <Step name="step2">
                 <Action name="compute_path"/>
                 <Action name="follow_path"/>
             </Step>
         </Subgoal>
         <Subgoal name="Hand off package">
-            <Step name="Approach recipient">
+            <Step name="step3">
                 <Action name="extend_arm"/>
                 <Action name="open_gripper"/>
             </Step>
-            <Step name="Release package">
+            <Step name="step4">
                 <Action name="release_gripper"/>
                 <Action name="retract_arm"/>
             </Step>
