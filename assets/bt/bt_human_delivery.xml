@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BehaviorTree bt_type="HUMAN">
-    <Goal name="Deliver package">
+    <Goal name="clean the kitchen counter">
+        <Description value=""/>
         <Subgoal name="Navigate to target">
             <Step name="step1">
                 <Action name="put_on_coat"/>
@@ -22,6 +23,11 @@
                 <Action name="hand_over_package"/>
                 <Action name="ask_for_signature"/>
                 <Action name="say_goodbye"/>
+            </Step>
+        </Subgoal>
+        <Subgoal name="Update delivery list">
+            <Step name="xyz">
+                <Action name="xyz"/>
             </Step>
         </Subgoal>
     </Goal>

@@ -7,7 +7,7 @@ import util
 
 
 DEBUG_ENABLED: bool = True
-GOAL_NAME: str = "Deliver package"
+GOAL_NAME: str = "clean the kitchen counter"
 
 
 class TriggerType(Enum):
@@ -16,6 +16,7 @@ class TriggerType(Enum):
     SUBGOAL_MISMATCH_EXTRA = 3
     STEPS_MISMATCH = 4
     STEPS_MISMATCH_EXTRA = 5
+    #TODO: STEPS_SEQUENCE_MISMATCH
     ACTION_UNSUCCESSFUL = 6
 
 
@@ -69,9 +70,9 @@ class ExplanationGenerator:
         for t in triggers:
             result.append(t)
 
-        # case 3: STEPS_MISMATCH_SEQUENCE
-        # case 4: ACTION_UNSUCCESSFUL
-        return triggers
+        #TODO: case 3: ACTION_UNSUCCESSFUL
+
+        return result
 
     def generate_explanation(self, trigger: Trigger) -> tuple[str, str]: 
         """
@@ -82,7 +83,23 @@ class ExplanationGenerator:
         :return: tuple with question, answer 
         :rtype: tuple[str, str]
         """
-        _ = trigger
+        match trigger.trigger_type:
+            case TriggerType.SUBGOAL_MISMATCH: 
+                return (
+                    "How do you do you plan to " + GOAL_NAME + "?", 
+                    self.__bt_robot[GOAL_NAME]["description"] 
+            )
+            case TriggerType.SUBGOAL_MISMATCH_MISSING: 
+                pass
+            case TriggerType.SUBGOAL_MISMATCH_EXTRA: 
+                pass
+            case TriggerType.STEPS_MISMATCH: 
+                pass
+            case TriggerType.STEPS_MISMATCH_EXTRA: 
+                pass
+            case TriggerType.ACTION_UNSUCCESSFUL: 
+                pass
+
         return "", ""
 
 

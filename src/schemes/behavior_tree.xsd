@@ -23,9 +23,15 @@
     <!-- Goal -->
     <xs:complexType name="GoalType">
         <xs:sequence>
+            <xs:element name="Description" type="DescriptionType" minOccurs="0"/>
             <xs:element name="Subgoal" type="SubgoalType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <!-- Description -->
+    <xs:complexType name="DescriptionType">
+        <xs:attribute name="value" type="xs:string" use="required"/>
     </xs:complexType>
 
     <!-- Subgoal -->

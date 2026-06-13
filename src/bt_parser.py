@@ -67,9 +67,13 @@ class BehaviorTreeXMLParser:
  
     def __parse_tree(self, root: etree._Element) -> BTDict:
         goal_elem = root.find("Goal")
+        description_elem = goal_elem.find("Description")
         return {
             goal_elem.attrib["name"]: {
                 "bt_type": root.attrib["bt_type"],
+                "description": (description_elem.attrib["value"] 
+                                if description_elem is not None
+                                else None),
                 "subgoals": {
                     sg.attrib["name"]: self.__parse_subgoal(sg)
                     for sg in goal_elem.findall("Subgoal")
