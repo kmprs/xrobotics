@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Dict
 from pathlib import Path
 from lxml import etree
 from bt_parser import BehaviorTreeXMLParser
@@ -17,6 +18,9 @@ class TriggerType(Enum):
     ACTION_UNSUCCESSFUL = 6
 
 
+BehaviorTree = Dict
+
+
 @dataclass
 class Trigger: 
     trigger_type: TriggerType
@@ -30,8 +34,8 @@ class ExplanationGenerator:
         parser.validate(bt_human_path)
 
         try:
-            self.__bt_robot = parser.parse(bt_robot_path)
-            self.__bt_human = parser.parse(bt_human_path)
+            self.__bt_robot: BehaviorTree = parser.parse(bt_robot_path)
+            self.__bt_human: BehaviorTree = parser.parse(bt_human_path)
 
             if constants.DEBUG_ENABLED:
                 print("Parsed behavior trees: \n")
@@ -95,9 +99,10 @@ class ExplanationGenerator:
                          " because " + trigger.relevant_elements[0][subgoal_name]["need"])
                 )
             case TriggerType.STEPS_MISMATCH: 
+                subgoal_name = list(trigger.relevant_elements[0].keys())[0] 
                 return (
-                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + constants.GOAL_NAME + "?", 
-                    trigger.relevant_elements[0]["description"] 
+                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + subgoal_name + "?", 
+                    trigger.relevant_elements[0][subgoal_name]["description"] 
                 )
             case TriggerType.STEPS_MISMATCH_EXTRA: 
                 pass
@@ -169,7 +174,8 @@ class ExplanationGenerator:
         } 
         # get steps human and robot
         for subgoal_name, robot_steps in robot_subgoals.items():
-            human_steps: dict = human_subgoals[subgoal_name] 
+            robot_steps = robot_steps["steps"]
+            human_steps: dict = human_subgoals[subgoal_name]["steps"] 
             robot_step_names = set(robot_steps.keys())
             human_step_names = set(human_steps.keys())
             missing_steps_names: set[str] = human_step_names - robot_step_names
@@ -181,13 +187,13 @@ class ExplanationGenerator:
                 # explain the overall process to fulfill the subgoal
                 result.append(Trigger(
                     trigger_type=TriggerType.STEPS_MISMATCH,
-                    relevant_elements=[self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name]]
+                    relevant_elements=[{subgoal_name: self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name]}]
                 ))
             elif not missing_steps_names and extra_steps_names:
                 # explain the reason for every extra step
                 result.append(Trigger(
                     trigger_type=TriggerType.STEPS_MISMATCH_EXTRA,
-                    relevant_elements=[self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name][x] 
+                    relevant_elements=[{x: self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name][x]} 
                                        for x in extra_steps_names]
                 ))
 

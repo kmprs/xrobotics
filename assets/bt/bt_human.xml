@@ -12,30 +12,11 @@
                 <Action name="activate_motors"/>
             </Step>
 
-            <Step name="move_to_counter">
+            <Step name="move_to_counter1">
                 <Action name="compute_path"/>
                 <Action name="follow_path"/>
             </Step>
         </Subgoal>
 
-        <Subgoal name="wipe the kitchen counter">
-            <Need value=""/>
-            <Description value=""/>
-            
-            <Step name="prepare_cleaning_tool">
-                <Action name="extend_arm"/>
-                <Action name="grasp_cleaning_cloth"/>
-            </Step>
-            
-            <Step name="apply_cleaner">
-                <Action name="spray_cleaning_solution"/>
-                <Action name="wait_for_solution_to_settle"/>
-            </Step>
-            
-            <Step name="wipe_surface">
-                <Action name="execute_wiping_pattern"/>
-                <Action name="remove_debris"/>
-            </Step>
-        </Subgoal>
     </Goal>
 </BehaviorTree>

@@ -6,7 +6,7 @@
 
         <Subgoal name="navigate to the kitchen counter">
             <Need value="I need to be able to reach the area that is dirty."/>
-            <Description value="I navigate to the kitchen counter so I can reach the area that needs cleaning. I prepare for navigation and then move to the counter."/>
+            <Description value="I prepare for navigation and then move to the counter."/>
 
             <Step name="prepare_navigation">
                 <Action name="unlock_wheels"/>

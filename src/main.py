@@ -19,7 +19,7 @@ def main():
             if constants.DEBUG_ENABLED:
                 print(f"───>TRIGGER: {trigger.trigger_type}")
             print(f"\nANSWER: {answer}")
-            print("──────────────────────────────────────────────────────────────────────────────\n\n")
+            print("──────────────────────────────────────────────────────────────────────────────")
 
 if __name__ == "__main__":
     main()
