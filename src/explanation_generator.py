@@ -92,27 +92,33 @@ class ExplanationGenerator:
             case TriggerType.SUBGOAL_MISMATCH_EXTRA: 
                 subgoal_name = next(iter(trigger.relevant_elements[0].keys()))
                 return (
-                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + subgoal_name + "?",
+                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + subgoal_name + constants.QUESTION_MARK,
                     ("I " + subgoal_name + 
                          " because " + trigger.relevant_elements[0][subgoal_name]["need"])
                 )
             case TriggerType.STEPS_MISMATCH: 
                 subgoal_name = list(trigger.relevant_elements[0].keys())[0] 
                 return (
-                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + subgoal_name + "?", 
+                    constants.MISMATCH_GENERAL_QUESTION_PHRASE + subgoal_name +
+                    constants.QUESTION_MARK, 
                     trigger.relevant_elements[0][subgoal_name]["description"] 
                 )
             case TriggerType.STEPS_MISMATCH_EXTRA: 
                 step_name = next(iter(trigger.relevant_elements[0].keys()))
                 return (
-                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + step_name + "?",
+                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + step_name + constants.QUESTION_MARK,
                     ("I " + step_name + 
                          " because " + trigger.relevant_elements[0][step_name]["need"])
                 )
             case TriggerType.ACTION_UNSUCCESSFUL: 
-                pass
-
-        return "", ""
+                # relevant_elements: 1=STEP: dict, 2=REASON: str
+                step_name = next(iter(trigger.relevant_elements[0].keys()))
+                return (
+                    constants.UNINTENTIONAL_BEHAVIOR_QUESTION_PHRASE + step_name +
+                    constants.QUESTION_MARK,
+                    constants.UNINTENTIONAL_BEHAVIOR_ANSWER_PHRASE + step_name + "because " +
+                    next(iter(trigger.relevant_elements[1]))
+                )
 
 
     def __detect_subgoal_mismatch(self) -> list[Trigger]:
