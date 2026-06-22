@@ -47,6 +47,7 @@
     <!-- Step -->
     <xs:complexType name="StepType">
         <xs:sequence>
+            <xs:element name="Need" type="DescriptionType"/>
             <xs:element name="Action" type="ActionType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>

@@ -105,7 +105,12 @@ class ExplanationGenerator:
                     trigger.relevant_elements[0][subgoal_name]["description"] 
                 )
             case TriggerType.STEPS_MISMATCH_EXTRA: 
-                pass
+                step_name = next(iter(trigger.relevant_elements[0].keys()))
+                return (
+                    constants.MISMATCH_EXTRA_QUESTION_PHRASE + step_name + "?",
+                    ("I " + step_name + 
+                         " because " + trigger.relevant_elements[0][step_name]["need"])
+                )
             case TriggerType.ACTION_UNSUCCESSFUL: 
                 pass
 
@@ -193,7 +198,7 @@ class ExplanationGenerator:
                 # explain the reason for every extra step
                 result.append(Trigger(
                     trigger_type=TriggerType.STEPS_MISMATCH_EXTRA,
-                    relevant_elements=[{x: self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name][x]} 
+                    relevant_elements=[{x: self.__bt_robot[constants.GOAL_NAME]["subgoals"][subgoal_name]["steps"][x]} 
                                        for x in extra_steps_names]
                 ))
 

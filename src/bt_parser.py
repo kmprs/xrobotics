@@ -66,40 +66,44 @@ class BehaviorTreeXMLParser:
             raise BehaviorTreeValidationError(source=source, errors=errors)
  
     def __parse_tree(self, root: etree._Element) -> BTDict:
-        goal_elem = root.find("Goal")
-        description_elem = goal_elem.find("Description")
+        goal_element = root.find("Goal")
+        description_element = goal_element.find("Description")
         return {
-            goal_elem.attrib["name"]: {
+            goal_element.attrib["name"]: {
                 "bt_type": root.attrib["bt_type"],
-                "description": (description_elem.attrib["value"] 
-                                if description_elem is not None
+                "description": (description_element.attrib["value"] 
+                                if description_element is not None
                                 else None),
                 "subgoals": {
                     sg.attrib["name"]: self.__parse_subgoal(sg)
-                    for sg in goal_elem.findall("Subgoal")
+                    for sg in goal_element.findall("Subgoal")
                 },
             }
         }
 
-    def __parse_subgoal(self, subgoal_elem: etree._Element) -> dict:
-        description_elem = subgoal_elem.find("Description")
-        need_elem = subgoal_elem.find("Need")
+    def __parse_subgoal(self, subgoal_element: etree._Element) -> dict:
+        description_element = subgoal_element.find("Description")
+        need_element = subgoal_element.find("Need")
         return {
-            "need": (need_elem.attrib["value"]
-                    if need_elem is not None
+            "need": (need_element.attrib["value"]
+                    if need_element is not None
                     else None),
-            "description": (description_elem.attrib["value"]
-                            if description_elem is not None
+            "description": (description_element.attrib["value"]
+                            if description_element is not None
                             else None),
             "steps": {
-                step_elem.attrib["name"]: self.__parse_step(step_elem)
-                for step_elem in subgoal_elem.findall("Step")
+                step_element.attrib["name"]: self.__parse_step(step_element)
+                for step_element in subgoal_element.findall("Step")
             },
         }
  
     @staticmethod
     def __parse_step(step_element: etree._Element) -> dict:
+        need_element = step_element.find("Need")
         return {
+            "need": (need_element.attrib["value"]
+                    if need_element is not None
+                    else None),
             "actions": [
                 action_element.attrib["name"]
                 for action_element in step_element.findall("Action")

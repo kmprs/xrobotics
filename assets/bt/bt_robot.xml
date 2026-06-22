@@ -8,12 +8,14 @@
             <Need value="I need to be able to reach the area that is dirty."/>
             <Description value="I prepare for navigation and then move to the counter."/>
 
-            <Step name="prepare_navigation">
+            <Step name="prepare the navigation">
+                <Need value="I need to be ready and capable of moving safely to the kitchen counter."/>
                 <Action name="unlock_wheels"/>
                 <Action name="activate_motors"/>
             </Step>
 
-            <Step name="move_to_counter">
+            <Step name="move to the counter">
+                <Need value="I need to reach the kitchen counter so I can perform cleaning tasks there."/>
                 <Action name="compute_path"/>
                 <Action name="follow_path"/>
             </Step>
@@ -24,16 +26,19 @@
             <Need value="I need to free the counter from dirt and dust."/>
             <Description value="I wipe the kitchen counter to remove dirt and maintain a clean surface. I prepare the cleaning tool, apply cleaner, and wipe the surface."/>
 
-            <Step name="prepare_cleaning_tool">
+            <Step name="prepare the cleaning tool">
+                <Need value="I need an appropriate cleaning tool to remove dirt from the counter surface."/>
                 <Action name="extend_arm"/>
                 <Action name="grasp_cleaning_cloth"/>
             </Step>
             
-            <Step name="apply_cleaner">
+            <Step name="apply the cleaner">
+                <Need value="I need to loosen and dissolve dirt so it can be removed effectively."/>
                 <Action name="spray_cleaning_solution"/>
                 <Action name="wait_for_solution_to_settle"/>
             </Step>
-            <Step name="wipe_surface">
+            <Step name="wipe the surface">
+                <Need value="I need to physically remove the loosened dirt and cleaning residue from the counter."/>
                 <Action name="execute_wiping_pattern"/>
                 <Action name="remove_debris"/>
             </Step>
