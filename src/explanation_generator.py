@@ -84,13 +84,11 @@ class ExplanationGenerator:
         :rtype: tuple[str, str]
         """
         match trigger.trigger_type:
-            case TriggerType.SUBGOAL_MISMATCH: 
+            case TriggerType.SUBGOAL_MISMATCH | TriggerType.SUBGOAL_MISMATCH_MISSING:
                 return (
                     constants.MISMATCH_GENERAL_QUESTION_PHRASE + constants.GOAL_NAME + "?", 
                     trigger.relevant_elements[0][constants.GOAL_NAME]["description"] 
                 )
-            case TriggerType.SUBGOAL_MISMATCH_MISSING: 
-                pass
             case TriggerType.SUBGOAL_MISMATCH_EXTRA: 
                 subgoal_name = next(iter(trigger.relevant_elements[0].keys()))
                 return (
@@ -131,22 +129,14 @@ class ExplanationGenerator:
         if not missing_subgoals and not extra_subgoals:
             return []
 
-        # SUBGOAL_MISMATCH
-        elif missing_subgoals and extra_subgoals:
+        # SUBGOAL_MISMATCH or SUBGOAL_MISMATCH_MISSING
+        # TODO: find a more meaningful way of creating an explanation for SUBGOAL_MISMATCH_MISSING
+        elif (missing_subgoals and extra_subgoals) or (missing_subgoals and not extra_subgoals):
             # use procedure description of parent goal entity
             return [Trigger(
                 trigger_type=TriggerType.SUBGOAL_MISMATCH,
                 relevant_elements=[self.__bt_robot]
             )]
-        # SUBGOAL_MISMATCH_MISSING
-        elif missing_subgoals and not extra_subgoals:
-            # use procedure description of parent goal entity
-            # TODO: find a more meaningful way of creating an explanation
-            return [Trigger(
-                trigger_type=TriggerType.SUBGOAL_MISMATCH_MISSING,
-                relevant_elements=[self.__bt_robot[constants.GOAL_NAME], self.__bt_human[constants.GOAL_NAME]]
-            )]
-        
         # SUBGOAL_MISMATCH_EXTRA
         else:
             # use subgoal need for explaining relevance
