@@ -10,14 +10,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <h1>Explainable Robotics</h1>
-            <p>Behavior Tree Comparison & Explanation Generation</p>
+        <div class="container header-inner">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/>
+                        <path d="M12 7.6V11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M12 11L6 15.5M12 11l6 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <circle cx="6" cy="18" r="2.4" stroke="currentColor" stroke-width="1.6"/>
+                        <circle cx="18" cy="18" r="2.4" stroke="currentColor" stroke-width="1.6"/>
+                    </svg>
+                </span>
+                <div>
+                    <h1>Explainable Robotics</h1>
+                    <p>Behavior Tree Comparison &amp; Explanation Generation</p>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -27,25 +40,46 @@
 
         <!-- Upload -->
 
-        <section class="card">
+        <section class="card upload-card">
 
-            <h2>Compare Behavior Trees</h2>
+            <div class="card-heading">
+                <h2>Compare Behavior Trees</h2>
+                <p class="card-subtitle">Upload a robot tree, a human tree, and the scenario that ties them together.</p>
+            </div>
 
             <div class="upload-grid">
 
                 <div class="input-group">
-                    <label for="robotTree">Robot Behavior Tree</label>
-                    <input type="file" id="robotTree" accept=".xml">
+                    <label for="robotTree">
+                        <span class="dot dot-robot" aria-hidden="true"></span>
+                        Robot Behavior Tree
+                    </label>
+                    <div class="file-drop">
+                        <input type="file" id="robotTree" accept=".xml">
+                        <span class="file-drop-text">Choose <code>.xml</code> file</span>
+                    </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="humanTree">Human Behavior Tree</label>
-                    <input type="file" id="humanTree" accept=".xml">
+                    <label for="humanTree">
+                        <span class="dot dot-human" aria-hidden="true"></span>
+                        Human Behavior Tree
+                    </label>
+                    <div class="file-drop">
+                        <input type="file" id="humanTree" accept=".xml">
+                        <span class="file-drop-text">Choose <code>.xml</code> file</span>
+                    </div>
                 </div>
 
                 <div class="input-group">
-                    <label for="scenario">Scenario JSON</label>
-                    <input type="file" id="scenario" accept=".json">
+                    <label for="scenario">
+                        <span class="dot dot-scenario" aria-hidden="true"></span>
+                        Scenario JSON
+                    </label>
+                    <div class="file-drop">
+                        <input type="file" id="scenario" accept=".json">
+                        <span class="file-drop-text">Choose <code>.json</code> file</span>
+                    </div>
                 </div>
 
             </div>
@@ -61,25 +95,31 @@
 
         <section class="trees">
 
-            <div class="card">
+            <div class="card tree-card">
 
-                <h2>Robot Behavior Tree</h2>
+                <div class="card-heading card-heading-tight">
+                    <span class="dot dot-robot" aria-hidden="true"></span>
+                    <h2>Robot Behavior Tree</h2>
+                </div>
 
                 <div class="tree" id="robotTreeView">
                     <p class="placeholder">
-                        Upload behavior trees to display the parsed robot tree.
+                        Upload Behavior trees to display the parsed robot tree.
                     </p>
                 </div>
 
             </div>
 
-            <div class="card">
+            <div class="card tree-card">
 
-                <h2>Human Behavior Tree</h2>
+                <div class="card-heading card-heading-tight">
+                    <span class="dot dot-human" aria-hidden="true"></span>
+                    <h2>Human Behavior Tree</h2>
+                </div>
 
                 <div class="tree" id="humanTreeView">
                     <p class="placeholder">
-                        Upload behavior trees to display the parsed human tree.
+                        Upload Behavior trees to display the parsed human tree.
                     </p>
                 </div>
 
@@ -92,7 +132,9 @@
 
         <section class="card">
 
-            <h2>Generated Explanations</h2>
+            <div class="card-heading">
+                <h2>Generated Explanations</h2>
+            </div>
 
             <div class="explanations">
                 <p class="placeholder">
@@ -109,7 +151,9 @@
 
     <aside class="sidebar">
         <section class="card video-card">
-            <h2>Simulation Recording</h2>
+            <div class="card-heading card-heading-tight">
+                <h2>Simulation Recording</h2>
+            </div>
             <div class="video-wrapper">
                 <video id="simulationVideo" controls preload="metadata">
                     <source src="" type="video/mp4">
@@ -120,6 +164,22 @@
 
 </main>
     <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        document.querySelectorAll('.file-drop').forEach((drop) => {
+            const input = drop.querySelector('input[type="file"]');
+            const text = drop.querySelector('.file-drop-text');
+            const defaultText = text.innerHTML;
+
+            input.addEventListener('change', () => {
+                if (input.files && input.files.length > 0) {
+                    text.textContent = input.files[0].name;
+                    drop.classList.add('has-file');
+                } else {
+                    text.innerHTML = defaultText;
+                    drop.classList.remove('has-file');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-```
