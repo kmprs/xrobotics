@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explainable Robotics</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Explainable Robotics</h1>
+            <p>Behavior Tree Comparison & Explanation Generation</p>
+        </div>
+    </header>
+
+<main class="container layout">
+
+    <section class="content">
+
+        <!-- Upload -->
+
+        <section class="card">
+
+            <h2>Compare Behavior Trees</h2>
+
+            <div class="upload-grid">
+
+                <div class="input-group">
+                    <label for="robotTree">Robot Behavior Tree</label>
+                    <input type="file" id="robotTree" accept=".xml">
+                </div>
+
+                <div class="input-group">
+                    <label for="humanTree">Human Behavior Tree</label>
+                    <input type="file" id="humanTree" accept=".xml">
+                </div>
+
+                <div class="input-group">
+                    <label for="scenario">Scenario JSON</label>
+                    <input type="file" id="scenario" accept=".json">
+                </div>
+
+            </div>
+
+            <button id="compareBtn">
+                Compare Trees
+            </button>
+
+        </section>
+
+
+        <!-- Trees -->
+
+        <section class="trees">
+
+            <div class="card">
+
+                <h2>Robot Behavior Tree</h2>
+
+                <div class="tree" id="robotTreeView">
+                    <p class="placeholder">
+                        Upload behavior trees to display the parsed robot tree.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Human Behavior Tree</h2>
+
+                <div class="tree" id="humanTreeView">
+                    <p class="placeholder">
+                        Upload behavior trees to display the parsed human tree.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Explanations -->
+
+        <section class="card">
+
+            <h2>Generated Explanations</h2>
+
+            <div class="explanations">
+                <p class="placeholder">
+                    No explanations generated yet.
+                </p>
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- Right Sidebar -->
+
+    <aside class="sidebar">
+        <section class="card video-card">
+            <h2>Simulation Recording</h2>
+            <div class="video-wrapper">
+                <video id="simulationVideo" controls preload="metadata">
+                    <source src="" type="video/mp4">
+                </video>
+            </div>
+        </section>
+    </aside>
+
+</main>
+    <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+```

@@ -1,0 +1,19 @@
+{
+    "composite_task": "MakeFruitBowl",
+    "completed": true, 
+    "hdf5_path": "path/to/hdf5",
+    "atomic_tasks": {
+        "OpenCabinet": {
+            "object": ["Cabinet"],
+            "completed": "True"
+        }, 
+        "PickPlaceCabinetToCounter": {
+            "object": ["Cabinet", "Bowl"],
+            "completed": "True"
+        },
+        "CloseCabinet": {
+            "object": ["Cabinet"],
+            "completed": "True"
+        }
+    }
+}

@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BehaviorTree bt_type="ROBOT">
-    <Goal name="clean the kitchen counter">
+<BehaviorTree bt_type="HUMAN">
+    <Goal name="load the dishwasher">
         <Description value=""/>
-        <Subgoal name="navigate to the kitchen counter">
+
+        <Subgoal name="load the dishwasher">
             <Need value=""/>
             <Description value=""/>
 
-            <Step name="prepare the navigation">
+            <Step name="open the dishwasher">
                 <Need value=""/>
-                <Action name="unlock_wheels"/>
-                <Action name="activate_motors"/>
+                <Action name="reach_for_handle"/>
+                <Action name="pull_door_open"/>
             </Step>
 
-            <Step name="move to the counter">
+            <Step name="pick up the cup">
                 <Need value=""/>
-                <Action name="compute_path"/>
-                <Action name="follow_path"/>
+                <Action name="detect_plate"/>
+                <Action name="grasp_plate"/>
+                <Action name="place_plate_into_dishwasher"/>
             </Step>
-        </Subgoal>
-        
-        <Subgoal name="wipe the kitchen counter">
-            <Need value=""/>
-            <Description value=""/>
-            <Step name="apply the cleaner">
+
+            <Step name="place the cup into the dishwasher">
                 <Need value=""/>
-                <Action name="spray_cleaning_solution"/>
-                <Action name="wait_for_solution_to_settle"/>
+                <Action name="detect_cup"/>
+                <Action name="grasp_cup"/>
+                <Action name="place_cup_into_dishwasher"/>
             </Step>
-            <Step name="prepare the cleaning tool">
-                <Need value=""/>
-                <Action name="extend_arm"/>
-                <Action name="grasp_cleaning_cloth"/>
-            </Step>
+
         </Subgoal>
     </Goal>
 </BehaviorTree>

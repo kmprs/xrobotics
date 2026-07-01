@@ -1,4 +1,8 @@
 .venv/
 docs/
+scripts/
+assets/videos/
+assets/hdf5/
+assets/simulation_runs/
 
 **/__pycache__/
