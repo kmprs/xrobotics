@@ -1,4 +1,6 @@
 from bt_parser import BTDict
+
+
 def print_bt(bt_dict: BTDict) -> None:
     """
     Example output:
@@ -47,3 +49,73 @@ def print_bt(bt_dict: BTDict) -> None:
                 for k, action_name in enumerate(actions):
                     ac_prefix = "└──" if k == len(actions) - 1 else "├──"
                     print(f"{step_indent}{ac_prefix} Action: {action_name}")
+
+
+def find_object(tree: dict | list, object_name: str) -> dict | None:
+    """
+    Recursively searches a nested dictionary for a key.
+
+    :param tree: The dictionary (or list of dictionaries) to search.
+    :type tree: dict | list
+    :param object_name: The key to search for.
+    :type object_name: str
+    :return: The value associated with the first matching key
+    :rtype: dict | None
+
+    :raises ValueError: if the object_name does not exist
+    """
+    if isinstance(tree, dict):
+        if object_name in tree:
+            return tree[object_name]
+
+        for value in tree.values():
+            result = find_object(value, object_name)
+            if result is not None:
+                return result
+
+    elif isinstance(tree, list):
+        for item in tree:
+            result = find_object(item, object_name)
+            if result is not None:
+                return result
+
+    return None
+
+
+def bt_to_frontend(bt: dict) -> dict:
+    """
+    Convert the parsed behavior tree into a frontend-friendly format.
+
+    Returns:
+    {
+        "name": "...",
+        "children": [...]
+    }
+    """
+
+    root_name = next(iter(bt))
+    root_content = bt[root_name]
+
+    return convert_node(root_name, root_content)
+
+
+def convert_node(name: str, node: dict) -> dict:
+    result = {
+        "name": name,
+        "children": []
+    }
+
+    # Add subgoals
+    for subgoal_name, subgoal in node.get("subgoals", {}).items():
+        result["children"].append(
+            convert_node(subgoal_name, subgoal)
+        )
+
+    # Add steps
+    for step_name, step in node.get("steps", {}).items():
+        result["children"].append(
+            convert_node(step_name, step)
+        )
+
+    return result
+

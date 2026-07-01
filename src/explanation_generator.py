@@ -4,6 +4,7 @@ from typing import Dict
 from pathlib import Path
 from lxml import etree
 from bt_parser import BehaviorTreeXMLParser
+from simulation_execution import SimulationExecution
 import util
 import constants
 
@@ -24,11 +25,12 @@ BehaviorTree = Dict
 @dataclass
 class Trigger: 
     trigger_type: TriggerType
-    relevant_elements: list[dict]
+    relevant_elements: list
 
 
 class ExplanationGenerator:
-    def __init__(self, bt_robot_path: Path, bt_human_path: Path): 
+    def __init__(self, bt_robot_path: Path, bt_human_path: Path, simulation_execution: SimulationExecution): 
+        self.__simulation_execution = simulation_execution
         parser = BehaviorTreeXMLParser()
         parser.validate(bt_robot_path)
         parser.validate(bt_human_path)
@@ -46,6 +48,7 @@ class ExplanationGenerator:
 
         except etree.DocumentInvalid as e:
             print(f"Schema error: {e}")
+
 
     def detect_triggers(self) -> list[Trigger]:
         """
@@ -70,7 +73,17 @@ class ExplanationGenerator:
         for t in triggers:
             result.append(t)
 
-        #TODO: case 3: ACTION_UNSUCCESSFUL
+        # case 3: ACTION_UNSUCCESSFUL
+        if not self.__simulation_execution.was_successful() and self.__simulation_execution.erronous_element:
+            erronous_element = util.find_object(self.__bt_robot, self.__simulation_execution.erronous_element[0])
+            if erronous_element is None:
+                raise ValueError(f"Element with name not found")
+
+            result.append(Trigger(
+                trigger_type=TriggerType.ACTION_UNSUCCESSFUL,
+                # 0: step name, 1: reason
+                relevant_elements=self.__simulation_execution.erronous_element
+            ))
 
         return result
 
@@ -112,13 +125,21 @@ class ExplanationGenerator:
                 )
             case TriggerType.ACTION_UNSUCCESSFUL: 
                 # relevant_elements: 1=STEP: dict, 2=REASON: str
-                step_name = next(iter(trigger.relevant_elements[0].keys()))
+                step_name: str = trigger.relevant_elements[0]
+                reason: str = trigger.relevant_elements[1]
                 return (
                     constants.UNINTENTIONAL_BEHAVIOR_QUESTION_PHRASE + step_name +
                     constants.QUESTION_MARK,
-                    constants.UNINTENTIONAL_BEHAVIOR_ANSWER_PHRASE + step_name + "because " +
-                    next(iter(trigger.relevant_elements[1]))
-                )
+                    constants.UNINTENTIONAL_BEHAVIOR_ANSWER_PHRASE + step_name + " because " +
+                    reason + ".")
+
+    @property
+    def bt_robot(self):
+        return self.__bt_robot
+
+    @property
+    def bt_human(self):
+        return self.__bt_human
 
 
     def __detect_subgoal_mismatch(self) -> list[Trigger]:
