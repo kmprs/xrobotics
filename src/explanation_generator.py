@@ -30,6 +30,17 @@ class Trigger:
 
 class ExplanationGenerator:
     def __init__(self, bt_robot_path: Path, bt_human_path: Path, simulation_execution: SimulationExecution): 
+        """
+        Initializes the explanation generator by loading and validating robot and human behavior trees.
+
+        :param bt_robot_path: path to robot behavior tree XML file
+        :type bt_robot_path: Path
+        :param bt_human_path: path to human behavior tree XML file
+        :type bt_human_path: Path
+        :param simulation_execution: simulation execution result used for trigger detection
+        :type simulation_execution: SimulationExecution
+        :raises etree.DocumentInvalid: if behavior tree XML does not conform to schema
+        """
         self.__simulation_execution = simulation_execution
         parser = BehaviorTreeXMLParser()
         parser.validate(bt_robot_path)
@@ -55,14 +66,9 @@ class ExplanationGenerator:
 
     def detect_triggers(self) -> list[Trigger]:
         """
-        Computes triggers based on the comparison of the robot's and human's behavior tree. 
-        The following triggers exist: 
-          1. Subgoals of both behavior trees don't match
-          2. Steps mismatch for a subgoal
-          3. Sequence mismatch of steps with relevant sequence
-          4. Action was not successful 
+        Detects differences between robot and human behavior trees and runtime execution results.
 
-        :return: list of triggers resulting from the comparison of both behavior trees
+        :returns: list of detected triggers describing mismatches or failures
         :rtype: list[Trigger]
         """
         result: list[Trigger] = []
@@ -148,6 +154,7 @@ class ExplanationGenerator:
     def __detect_subgoal_mismatch(self) -> list[Trigger]:
         """
         Checks if a subgoal mismatch is present in the BTs
+
         :return: Trigger if a mismatch has been detected else None
         :rtype: list[Trigger]
         """
@@ -182,6 +189,7 @@ class ExplanationGenerator:
     def __detect_step_mismatches(self) -> list[Trigger]:
         """
         Checks if a step mismatch is present in the BTs
+
         :return: Trigger if a mismatch has been detected else None
         :rtype: list[Trigger]
         """

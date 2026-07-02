@@ -35,18 +35,13 @@
     </header>
 
 <main class="container layout">
-
     <section class="content">
-
         <!-- Upload -->
-
         <section class="card upload-card">
-
             <div class="card-heading">
                 <h2>Compare Behavior Trees</h2>
                 <p class="card-subtitle">Upload a robot tree, a human tree, and the scenario that ties them together.</p>
             </div>
-
             <div class="upload-grid">
 
                 <div class="input-group">
@@ -87,16 +82,11 @@
             <button id="compareBtn">
                 Compare Trees
             </button>
-
         </section>
 
-
         <!-- Trees -->
-
         <section class="trees">
-
             <div class="card tree-card">
-
                 <div class="card-heading card-heading-tight">
                     <span class="dot dot-robot" aria-hidden="true"></span>
                     <h2>Robot Behavior Tree</h2>
@@ -107,11 +97,9 @@
                         Upload Behavior trees to display the parsed robot tree.
                     </p>
                 </div>
-
             </div>
 
             <div class="card tree-card">
-
                 <div class="card-heading card-heading-tight">
                     <span class="dot dot-human" aria-hidden="true"></span>
                     <h2>Human Behavior Tree</h2>
@@ -122,33 +110,24 @@
                         Upload Behavior trees to display the parsed human tree.
                     </p>
                 </div>
-
             </div>
-
         </section>
 
 
         <!-- Explanations -->
-
         <section class="card">
-
             <div class="card-heading">
                 <h2>Generated Explanations</h2>
             </div>
-
             <div class="explanations">
                 <p class="placeholder">
                     No explanations generated yet.
                 </p>
             </div>
-
         </section>
-
     </section>
 
-
     <!-- Right Sidebar -->
-
     <aside class="sidebar">
         <section class="card video-card">
             <div class="card-heading card-heading-tight">
@@ -163,6 +142,7 @@
     </aside>
 
 </main>
+
     <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script>
         document.querySelectorAll('.file-drop').forEach((drop) => {

@@ -1,5 +1,13 @@
 const API_BASE = "http://localhost:8000";
 
+
+/**
+ * Sends behavior tree files to backend for comparison.
+ * @param {File} robotFile - robot behavior tree XML file
+ * @param {File} humanFile - human behavior tree XML file
+ * @param {File} scenarioFile - scenario JSON file
+ * @returns {Promise<Object>} comparison result from backend
+ */
 export async function compareTrees(robotFile, humanFile, scenarioFile) {
 
     const formData = new FormData();

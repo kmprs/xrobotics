@@ -23,18 +23,18 @@ CORS(app)
 def index():
     return render_template("index.html")
 
+
 @app.route("/assets/<path:filename>")
 def assets(filename):
     return send_from_directory(ASSETS, filename)
+
 
 @app.route("/compare", methods=["POST"])
 def compare():
     if "robotTree" not in request.files:
         return jsonify({"error": "Missing robot behavior tree."}), 400
-
     if "humanTree" not in request.files:
         return jsonify({"error": "Missing human behavior tree."}), 400
-
     if "scenario" not in request.files:
         return jsonify({"error": "Missing scenario file."}), 400
 
@@ -43,11 +43,9 @@ def compare():
     scenario_file = request.files["scenario"]
 
     with TemporaryDirectory() as tmp:
-
         robot_bt_path= Path(tmp) / str(robot_bt_file.filename)
         human_bt_path = Path(tmp) / str(human_bt_file.filename)
         scenario_path = Path(tmp) / str(scenario_file.filename)
-
         robot_bt_file.save(robot_bt_path)
         human_bt_file.save(human_bt_path)
         scenario_file.save(scenario_path)
@@ -62,9 +60,7 @@ def compare():
         explanations = []
         
         for trigger in triggers:
-        
             question, answer = explanation_generator.generate_explanation(trigger)
-        
             explanations.append({
                 "question": question,
                 "answer": answer
@@ -72,7 +68,6 @@ def compare():
         
         bt_robot = util.bt_to_frontend(explanation_generator.bt_robot)
         bt_human = util.bt_to_frontend(explanation_generator.bt_human)
-
         response = {
             "robotTree": bt_robot, 
             "humanTree": bt_human,

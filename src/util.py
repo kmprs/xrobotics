@@ -3,8 +3,12 @@ from bt_parser import BTDict
 
 def print_bt(bt_dict: BTDict) -> None:
     """
+    Prints a behavior tree in a structured human-readable format.
+    :param bt_dict: behavior tree dictionary to print
+    :type bt_dict: BTDict
+
     Example output:
-    [ROBOT] BehaviorTree
+    BehaviorTree
     └── Goal: AssemblePart
         │   Description: "I first grasp the object and the place it"
         ├── Subgoal: Grasp
@@ -84,13 +88,12 @@ def find_object(tree: dict | list, object_name: str) -> dict | None:
 
 def bt_to_frontend(bt: dict) -> dict:
     """
-    Convert the parsed behavior tree into a frontend-friendly format.
+    Converts a parsed behavior tree into a frontend-compatible hierarchical structure.
 
-    Returns:
-    {
-        "name": "...",
-        "children": [...]
-    }
+    :param bt: behavior tree dictionary
+    :type bt: dict
+    :returns: tree in {name, children} format suitable for UI rendering
+    :rtype: dict
     """
 
     root_name = next(iter(bt))
@@ -100,6 +103,16 @@ def bt_to_frontend(bt: dict) -> dict:
 
 
 def convert_node(name: str, node: dict) -> dict:
+    """
+    Recursively converts a behavior tree node into a frontend-compatible format.
+
+    :param name: node identifier
+    :type name: str
+    :param node: node content containing subgoals and steps
+    :type node: dict
+    :returns: converted node with name and children fields
+    :rtype: dict
+    """
     result = {
         "name": name,
         "children": []
