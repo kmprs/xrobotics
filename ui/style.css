@@ -305,6 +305,27 @@ button:active {
     border-left: 1.5px solid #b7c0cf;
 }
 
+/* Extra steps / subgoals highlighting */
+
+.tree-node-extra {
+    border-radius: 6px;
+    padding: 2px 6px;
+    margin: 2px 0;
+    font-weight: 600;
+}
+
+.tree-node-extra.extra-robot {
+    background: rgba(15, 157, 110, 0.12);
+    color: #0f9d6e;
+    box-shadow: inset 0 0 0 1px rgba(15, 157, 110, 0.35);
+}
+
+.tree-node-extra.extra-human {
+    background: rgba(209, 52, 52, 0.1);
+    color: #d13434;
+    box-shadow: inset 0 0 0 1px rgba(209, 52, 52, 0.35);
+}
+
 /* Explanations */
 
 .explanations {
@@ -337,12 +358,12 @@ button:active {
     flex: 1;
     display: flex;
     min-height: 0;
-    min-width: 500px;
+    min-width: 0;
 }
 
 video {
     width: 100%;
-    min-width: 500px;
+    min-width: 0;
     height: 100%;
     border-radius: var(--radius-md);
     object-fit: contain;

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BehaviorTree bt_type="ROBOT">
+    <Goal name="clean up the counter">
+        <Description value="I first clear the counter by picking up the cup and placing it into the sink. I then pick up the sponge and use it to wipe the counter surface clean. Finally, I return the sponge to the sink to complete the task."/>
+
+        <Subgoal name="clear the counter">
+            <Need value="I need to remove the cup from the counter so the surface is free of obstacles before I clean it."/>
+            <Description value="I pick up the cup from the counter and place it into the sink."/>
+
+            <Step name="inspect the counter">
+                <Need value="I need to locate the cup on the counter so I can plan how to pick it up."/>
+                <Action name="scan_counter"/>
+                <Action name="detect_cup"/>
+                <Action name="localize_cup"/>
+            </Step>
+
+            <Step name="pick up the cup">
+                <Need value="I need to pick up the cup so I can move it off the counter and into the sink."/>
+                <Action name="extend_arm"/>
+                <Action name="position_gripper"/>
+                <Action name="grasp_cup"/>
+                <Action name="lift_cup"/>
+            </Step>
+
+            <Step name="navigate to the sink">
+                <Need value="I need to move to the sink while holding the cup so I can place it inside."/>
+                <Action name="plan_path_to_sink"/>
+                <Action name="move_to_sink"/>
+                <Action name="align_with_sink"/>
+            </Step>
+
+            <Step name="place the cup into the sink">
+                <Need value="I need to move the cup into the sink so it can be cleaned later."/>
+                <Action name="position_cup_over_sink"/>
+                <Action name="lower_cup"/>
+                <Action name="release_cup"/>
+                <Action name="retract_arm"/>
+            </Step>
+        </Subgoal>
+
+        <Subgoal name="retrieve the sponge">
+            <Need value="I need to obtain the sponge so I have a tool to wipe the counter surface with."/>
+            <Description value="I navigate to the sink, locate the sponge, and pick it up so I can carry it to the counter."/>
+
+            <Step name="navigate to the sink">
+                <Need value="I need to move to the sink so I can reach the sponge that is stored near it."/>
+                <Action name="plan_path_to_sink"/>
+                <Action name="move_to_sink"/>
+                <Action name="align_with_cabinet"/>
+            </Step>
+
+            <Step name="locate the sponge">
+                <Need value="I need to find the exact position of the sponge so I can grasp it accurately."/>
+                <Action name="scan_area"/>
+                <Action name="detect_sponge"/>
+                <Action name="localize_sponge"/>
+            </Step>
+
+            <Step name="pick up the sponge">
+                <Need value="I need to pick up the sponge so I can use it to wipe the counter."/>
+                <Action name="extend_arm"/>
+                <Action name="position_gripper"/>
+                <Action name="grasp_sponge"/>
+                <Action name="lift_sponge"/>
+            </Step>
+        </Subgoal>
+
+        <Subgoal name="wipe the counter">
+            <Need value="I need to clean the counter surface so it is free of residue and debris."/>
+            <Description value="I navigate to the kitchen counter with the sponge and wipe the surface until it is clean."/>
+
+            <Step name="navigate to the kitchen counter">
+                <Need value="I need to move to the counter while holding the sponge so I can begin wiping."/>
+                <Action name="plan_path_to_counter"/>
+                <Action name="move_to_counter"/>
+                <Action name="align_with_counter"/>
+            </Step>
+
+            <Step name="position the sponge">
+                <Need value="I need to position the sponge against the counter so I can wipe effectively."/>
+                <Action name="lower_arm"/>
+                <Action name="press_sponge_to_surface"/>
+            </Step>
+
+            <Step name="wipe the surface">
+                <Need value="I need to move the sponge across the counter so any residue and debris are removed."/>
+                <Action name="move_sponge_left_to_right"/>
+                <Action name="move_sponge_front_to_back"/>
+                <Action name="apply_pressure"/>
+                <Action name="detect_clean_surface"/>
+            </Step>
+
+            <Step name="inspect the surface">
+                <Need value="I need to verify that the counter is clean before returning the sponge."/>
+                <Action name="scan_surface"/>
+                <Action name="confirm_surface_clean"/>
+            </Step>
+        </Subgoal>
+
+        <Subgoal name="return the sponge">
+            <Need value="I need to return the sponge to the sink so it does not remain on the counter and the task is fully complete."/>
+            <Description value="I navigate to the sink, place the sponge inside, and release it to complete the task."/>
+
+            <Step name="navigate to the sink">
+                <Need value="I need to move back to the sink while holding the sponge so I can place it inside."/>
+                <Action name="plan_path_to_sink"/>
+                <Action name="move_to_sink"/>
+                <Action name="align_with_sink"/>
+            </Step>
+
+            <Step name="place the sponge in the sink">
+                <Need value="I need to place the sponge into the sink so it is properly stored and the counter remains clear."/>
+                <Action name="position_sponge_over_sink"/>
+                <Action name="lower_sponge"/>
+                <Action name="release_sponge"/>
+                <Action name="retract_arm"/>
+            </Step>
+
+            <Step name="finalize the task">
+                <Need value="I need to confirm that both the cup and the sponge are in the sink and the counter is clean so I can mark the task as complete."/>
+                <Action name="scan_counter"/>
+                <Action name="scan_sink"/>
+                <Action name="confirm_task_complete"/>
+            </Step>
+        </Subgoal>
+
+    </Goal>
+</BehaviorTree>

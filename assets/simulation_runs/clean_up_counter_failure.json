@@ -1,0 +1,41 @@
+{
+    "composite_task": "clean up the counter",
+    "completed": true,
+    "hdf5_path": "/assets/hdf5/clean_up_counter.hdf5",
+    "video_path": "/assets/videos/clean_up_counter.mp4",
+    "atomic_tasks": {
+        "pick up the cup": {
+            "object": ["Cup", "Counter"],
+            "completed": true
+        },
+        "place the cup into the sink": {
+            "object": ["Cup", "Sink"],
+            "completed": true
+        },
+        "navigate to the sink": {
+            "object": ["Sponge", "Cab"],
+            "completed": true
+        },
+        "pick up the sponge": {
+            "object": ["Sponge"],
+            "completed": true
+        },
+        "navigate to the kitchen counter": {
+            "object": ["Counter"],
+            "completed": true
+        },
+        "wipe the surface": {
+            "object": ["Sponge", "Counter"],
+            "completed": false,
+            "reason": "the dirt was not detected correctly"
+        },
+        "navigate to the sink": {
+            "object": ["Sink"],
+            "completed": true
+        },
+        "place sponge in the sink": {
+            "object": ["Sponge", "Sink"],
+            "completed": true
+        }
+    }
+}

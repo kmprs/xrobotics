@@ -36,8 +36,8 @@ async function compare() {
             scenarioFile
         );
 
-        renderTree("robotTreeView", result.robotTree);
-        renderTree("humanTreeView", result.humanTree);
+        renderTree("robotTreeView", result.robotTree, result.humanTree, "extra-robot");
+        renderTree("humanTreeView", result.humanTree, result.robotTree, "extra-human");
 
         renderVideo(result.video);
 

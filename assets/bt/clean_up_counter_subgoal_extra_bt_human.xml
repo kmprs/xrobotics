@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BehaviorTree bt_type="HUMAN">
+    <Goal name="clean up the counter">
+        <Description value=""/>
+
+        <Subgoal name="clear the counter">
+            <Need value=""/>
+            <Description value=""/>
+
+            <Step name="inspect the counter">
+                <Need value=""/>
+                <Action name="look_at_counter"/>
+                <Action name="spot_the_cup"/>
+            </Step>
+
+            <Step name="pick up the cup">
+                <Need value=""/>
+                <Action name="reach_for_cup"/>
+                <Action name="grab_cup_by_handle"/>
+                <Action name="lift_cup"/>
+            </Step>
+
+            <Step name="navigate to the sink">
+                <Need value=""/>
+                <Action name="walk_to_sink"/>
+                <Action name="stand_in_front_of_sink"/>
+            </Step>
+
+            <Step name="place the cup into the sink">
+                <Need value=""/>
+                <Action name="hold_cup_over_sink"/>
+                <Action name="set_cup_down"/>
+                <Action name="let_go_of_cup"/>
+            </Step>
+        </Subgoal>
+
+        <Subgoal name="wipe the counter">
+            <Need value=""/>
+            <Description value=""/>
+
+            <Step name="navigate to the kitchen counter">
+                <Need value=""/>
+                <Action name="walk_to_counter"/>
+                <Action name="stand_in_front_of_counter"/>
+            </Step>
+
+            <Step name="position the sponge">
+                <Need value=""/>
+                <Action name="lower_hand_to_counter"/>
+                <Action name="press_sponge_onto_surface"/>
+            </Step>
+
+            <Step name="wipe the surface">
+                <Need value=""/>
+                <Action name="wipe_side_to_side"/>
+                <Action name="wipe_back_and_forth"/>
+                <Action name="press_down_on_stains"/>
+                <Action name="check_if_surface_looks_clean"/>
+            </Step>
+
+            <Step name="inspect the surface">
+                <Need value=""/>
+                <Action name="look_over_counter"/>
+                <Action name="confirm_counter_is_clean"/>
+            </Step>
+        </Subgoal>
+
+        <Subgoal name="return the sponge">
+            <Need value=""/>
+            <Description value=""/>
+
+            <Step name="navigate to the sink">
+                <Need value=""/>
+                <Action name="walk_to_sink"/>
+                <Action name="stand_in_front_of_sink"/>
+            </Step>
+
+            <Step name="place the sponge in the sink">
+                <Need value=""/>
+                <Action name="hold_sponge_over_sink"/>
+                <Action name="set_sponge_down"/>
+                <Action name="let_go_of_sponge"/>
+            </Step>
+
+            <Step name="finalize the task">
+                <Need value=""/>
+                <Action name="glance_at_counter"/>
+                <Action name="glance_at_sink"/>
+                <Action name="consider_task_done"/>
+            </Step>
+        </Subgoal>
+
+    </Goal>
+</BehaviorTree>
